@@ -58,7 +58,7 @@ test('CustomGestureModal Colab notebook config points to existing workspace note
     true
   );
   assert.equal(
-    modalSource.includes('https://colab.research.google.com/github/XinRou-28/absolutecinema/blob/'),
+    modalSource.includes('https://colab.research.google.com/github/XinRou-28/hello-vision/blob/'),
     false,
     'Should construct Colab URL from COLAB_GITHUB_CONFIG rather than hardcoding an unverified branch URL'
   );

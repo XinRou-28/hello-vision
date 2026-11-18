@@ -46,9 +46,8 @@ import {
 /**
  * Google Colab Notebook Configuration.
  *
- * `README.md` references `https://github.com/XinRou-28/absolutecinema.git` and the notebook
- * resides at `notebooks/Custom_Gesture_KNN_Training.ipynb`, but the repository currently
- * returns 404 publicly and no `.git` branch metadata exists in this workspace.
+ * `README.md` references `https://github.com/XinRou-28/hello-vision.git` and the notebook
+ * resides at `notebooks/Custom_Gesture_KNN_Training.ipynb`.
  *
  * To activate the direct GitHub-backed Colab link:
  *   1. Ensure the GitHub repository is public and includes `notebooks/Custom_Gesture_KNN_Training.ipynb`.
@@ -56,7 +55,7 @@ import {
  */
 export const COLAB_GITHUB_CONFIG = {
   owner: 'XinRou-28',
-  repo: 'absolutecinema',
+  repo: 'hello-vision',
   branch: '',
   notebookPath: 'notebooks/Custom_Gesture_KNN_Training.ipynb',
 };

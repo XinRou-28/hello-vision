@@ -69,8 +69,8 @@ All webcam tracking runs locally in your browser using WebAssembly—no video fr
 
 1. Clone the repository and enter the project folder:
    ```bash
-   git clone https://github.com/<your-github-username>/<your-repo-name>.git
-   cd <your-repo-name>
+   git clone https://github.com/XinRou-28/hello-vision.git
+   cd hello-vision
    ```
 
 2. Install dependencies:
