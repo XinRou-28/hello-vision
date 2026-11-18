@@ -18,9 +18,11 @@ export default function PresentationDeck({
   const [revealStep, setRevealStep] = useState(0);
   const [isFullscreen, setIsFullscreen] = useState(false);
   const [stageScale, setStageScale] = useState(0.75);
+  const [hudVisible, setHudVisible] = useState(true);
 
   const stageHostRef = useRef(null);
   const rootRef = useRef(null);
+  const hideTimerRef = useRef(null);
 
   const currentSlide = PRESENTATION_SLIDES[slideIndex];
   const maxRevealIndex = Math.max(0, (currentSlide.revealCount || 1) - 1);
@@ -33,18 +35,37 @@ export default function PresentationDeck({
     onSlideChange?.(slideIndex);
   }, [slideIndex, onSlideChange]);
 
+  const wakeHud = useCallback(() => {
+    setHudVisible(true);
+    if (hideTimerRef.current) {
+      clearTimeout(hideTimerRef.current);
+    }
+    hideTimerRef.current = setTimeout(() => {
+      setHudVisible(false);
+    }, 2400);
+  }, []);
+
+  useEffect(() => {
+    wakeHud();
+    return () => {
+      if (hideTimerRef.current) {
+        clearTimeout(hideTimerRef.current);
+      }
+    };
+  }, [wakeHud]);
+
   useEffect(() => {
     const host = stageHostRef.current;
     if (!host) return undefined;
 
     const updateScale = () => {
       const rect = host.getBoundingClientRect();
-      const padX = 32;
-      const padY = 24;
+      const padX = isFullscreen ? 0 : 28;
+      const padY = isFullscreen ? 0 : 24;
       const availW = Math.max(320, rect.width - padX);
       const availH = Math.max(200, rect.height - padY);
       const scale = Math.min(availW / BASE_WIDTH, availH / BASE_HEIGHT);
-      setStageScale(Math.max(0.2, Math.min(1.5, scale)));
+      setStageScale(Math.max(0.2, Math.min(2, scale)));
     };
 
     updateScale();
@@ -55,15 +76,16 @@ export default function PresentationDeck({
       observer.disconnect();
       window.removeEventListener('resize', updateScale);
     };
-  }, []);
+  }, [isFullscreen]);
 
   useEffect(() => {
     const onFsChange = () => {
       setIsFullscreen(Boolean(document.fullscreenElement));
+      wakeHud();
     };
     document.addEventListener('fullscreenchange', onFsChange);
     return () => document.removeEventListener('fullscreenchange', onFsChange);
-  }, []);
+  }, [wakeHud]);
 
   const advance = useCallback(() => {
     if (revealStep < maxRevealIndex) {
@@ -157,84 +179,20 @@ export default function PresentationDeck({
   return (
     <div
       ref={rootRef}
-      className="fixed inset-0 flex h-dvh w-screen flex-col overflow-hidden bg-[#F1F3F4] text-[#202124]"
+      onPointerMove={wakeHud}
+      className="fixed inset-0 flex h-dvh w-screen flex-col overflow-hidden bg-[#0a0a0d] text-[#202124]"
       style={{ fontFamily: '"Plus Jakarta Sans", system-ui, -apple-system, sans-serif' }}
     >
-      {/* Top Progress Bar */}
-      <div className="h-1 w-full bg-[#E8EAED]">
-        <div
-          className="h-full transition-all duration-300"
-          style={{
-            width: `${progressPct}%`,
-            background:
-              'linear-gradient(90deg, #4285F4 0%, #EA4335 35%, #FBBC05 70%, #34A853 100%)',
-          }}
-        />
-      </div>
+      {/* Subtle theater backdrop warmth */}
+      <div
+        aria-hidden="true"
+        className="pointer-events-none fixed inset-0 bg-[radial-gradient(ellipse_75%_60%_at_50%_45%,rgba(255,255,255,0.045),transparent_72%)]"
+      />
 
-      {/* Minimal Presentation Toolbar */}
-      <header className="flex h-13 shrink-0 items-center justify-between gap-6 border-b border-[#DADCE0] bg-[#FFFFFF] px-4 sm:px-6">
-        <div className="flex min-w-0 items-center gap-3">
-          <button
-            type="button"
-            onClick={() => handleOpenAppFromSlide(null)}
-            className="inline-flex shrink-0 cursor-pointer items-center gap-1.5 rounded-lg border border-[#DADCE0] bg-[#FFFFFF] px-3 py-1.5 text-xs font-semibold whitespace-nowrap text-[#202124] transition-colors hover:bg-[#F8F9FA]"
-          >
-            <ArrowLeft className="h-3.5 w-3.5 text-[#5F6368]" />
-            <span>Workshop App</span>
-          </button>
-
-          <span className="hidden truncate text-xs font-semibold text-[#5F6368] sm:inline">
-            GDG On Campus UM · HELLO, VISION!
-          </span>
-        </div>
-
-        <div className="flex shrink-0 items-center gap-2">
-          <div className="flex items-center rounded-lg border border-[#DADCE0] bg-[#F8F9FA] p-0.5">
-            <button
-              type="button"
-              onClick={retreat}
-              disabled={slideIndex === 0 && revealStep === 0}
-              aria-label="Previous slide"
-              className="flex h-7 w-7 cursor-pointer items-center justify-center rounded-md text-[#202124] hover:bg-white disabled:cursor-not-allowed disabled:opacity-35"
-            >
-              <ChevronLeft className="h-4 w-4" />
-            </button>
-            <span className="px-3 font-mono text-xs font-semibold whitespace-nowrap text-[#202124] tabular-nums">
-              {formattedSlideNumber}
-            </span>
-            <button
-              type="button"
-              onClick={advance}
-              disabled={
-                slideIndex === PRESENTATION_SLIDES.length - 1 && revealStep >= maxRevealIndex
-              }
-              aria-label="Next slide"
-              className="flex h-7 w-7 cursor-pointer items-center justify-center rounded-md text-[#202124] hover:bg-white disabled:cursor-not-allowed disabled:opacity-35"
-            >
-              <ChevronRight className="h-4 w-4" />
-            </button>
-          </div>
-
-          <button
-            type="button"
-            onClick={toggleFullscreen}
-            aria-label="Toggle fullscreen"
-            className="inline-flex h-8 w-8 cursor-pointer items-center justify-center rounded-lg border border-[#DADCE0] bg-white text-[#5F6368] hover:bg-[#F8F9FA] hover:text-[#202124]"
-          >
-            {isFullscreen ? (
-              <Minimize2 className="h-3.5 w-3.5" />
-            ) : (
-              <Maximize2 className="h-3.5 w-3.5" />
-            )}
-          </button>
-        </div>
-      </header>
-
-      {/* Main 1280x720 Projected Stage */}
+      {/* Full-Viewport 1280x720 Projected Slide Stage */}
       <main
         ref={stageHostRef}
-        className="relative flex flex-1 items-center justify-center overflow-hidden bg-[#F1F3F4]"
+        className="relative z-10 flex h-full w-full flex-1 items-center justify-center overflow-hidden"
       >
         <div
           style={{
@@ -243,14 +201,18 @@ export default function PresentationDeck({
             transform: `scale(${stageScale})`,
             transformOrigin: 'center center',
           }}
-          className="relative shrink-0 overflow-hidden rounded-xl border border-[#DADCE0] bg-[#FFFFFF] px-12 pt-10 pb-14 shadow-[0_14px_40px_rgba(32,33,36,0.08)]"
+          className={`relative shrink-0 overflow-hidden bg-[#FFFFFF] px-12 pt-10 pb-14 transition-shadow duration-300 ${
+            isFullscreen
+              ? 'rounded-none border-0 shadow-none'
+              : 'rounded-xl border border-white/10 shadow-[0_28px_84px_rgba(0,0,0,0.65)]'
+          }`}
         >
           <AnimatePresence mode="wait">
             <motion.div
               key={currentSlide.id}
-              initial={{ opacity: 0, x: 16 }}
+              initial={{ opacity: 0, x: 14 }}
               animate={{ opacity: 1, x: 0 }}
-              exit={{ opacity: 0, x: -16 }}
+              exit={{ opacity: 0, x: -14 }}
               transition={{ duration: 0.2, ease: [0.16, 1, 0.3, 1] }}
               className="h-full w-full"
             >
@@ -276,7 +238,7 @@ export default function PresentationDeck({
             </div>
           )}
 
-          {/* Subtle consistent bottom slide number */}
+          {/* Subtle consistent bottom slide number inside slide stage */}
           <div
             aria-label={`Slide ${currentSlide.number} of ${PRESENTATION_SLIDES.length}`}
             className="pointer-events-none absolute right-12 bottom-4 font-mono text-xs font-medium tracking-wider text-[#80868B] tabular-nums"
@@ -285,6 +247,81 @@ export default function PresentationDeck({
           </div>
         </div>
       </main>
+
+      {/* Auto-hiding minimal floating slide HUD (no top bar) */}
+      <div
+        onMouseEnter={() => setHudVisible(true)}
+        onFocus={() => setHudVisible(true)}
+        className={`fixed bottom-4 left-1/2 z-30 flex -translate-x-1/2 items-center gap-1.5 rounded-full border border-white/15 bg-[#121216]/85 px-2 py-1.5 text-white shadow-[0_16px_40px_rgba(0,0,0,0.45)] backdrop-blur-xl transition-opacity duration-300 ${
+          hudVisible ? 'opacity-100' : 'pointer-events-none opacity-0'
+        }`}
+      >
+        <button
+          type="button"
+          onClick={() => handleOpenAppFromSlide(null)}
+          aria-label="Exit to Workshop App"
+          className="inline-flex h-8 cursor-pointer items-center gap-1.5 rounded-full px-3 text-xs font-medium whitespace-nowrap text-[#e6dfd1] transition-colors hover:bg-white/10 hover:text-white"
+        >
+          <ArrowLeft className="h-3.5 w-3.5 text-[#d6b15e]" aria-hidden="true" />
+          <span>Workshop App</span>
+        </button>
+
+        <span aria-hidden="true" className="h-4 w-px bg-white/15" />
+
+        <button
+          type="button"
+          onClick={retreat}
+          disabled={slideIndex === 0 && revealStep === 0}
+          aria-label="Previous slide"
+          className="flex h-8 w-8 cursor-pointer items-center justify-center rounded-full text-white/85 transition-colors hover:bg-white/10 hover:text-white disabled:cursor-not-allowed disabled:opacity-30"
+        >
+          <ChevronLeft className="h-4 w-4" aria-hidden="true" />
+        </button>
+
+        <span className="px-2 font-mono text-xs font-medium whitespace-nowrap text-[#e6dfd1] tabular-nums">
+          {formattedSlideNumber}
+        </span>
+
+        <button
+          type="button"
+          onClick={advance}
+          disabled={slideIndex === PRESENTATION_SLIDES.length - 1 && revealStep >= maxRevealIndex}
+          aria-label="Next slide"
+          className="flex h-8 w-8 cursor-pointer items-center justify-center rounded-full text-white/85 transition-colors hover:bg-white/10 hover:text-white disabled:cursor-not-allowed disabled:opacity-30"
+        >
+          <ChevronRight className="h-4 w-4" aria-hidden="true" />
+        </button>
+
+        <span aria-hidden="true" className="h-4 w-px bg-white/15" />
+
+        <button
+          type="button"
+          onClick={toggleFullscreen}
+          aria-label="Toggle fullscreen"
+          className="flex h-8 w-8 cursor-pointer items-center justify-center rounded-full text-white/85 transition-colors hover:bg-white/10 hover:text-white"
+        >
+          {isFullscreen ? (
+            <Minimize2 className="h-3.5 w-3.5" aria-hidden="true" />
+          ) : (
+            <Maximize2 className="h-3.5 w-3.5" aria-hidden="true" />
+          )}
+        </button>
+      </div>
+
+      {/* Whisper-thin bottom progress hairline */}
+      <div
+        aria-hidden="true"
+        className="pointer-events-none fixed inset-x-0 bottom-0 z-20 h-[2px] bg-white/[0.06]"
+      >
+        <div
+          className="h-full transition-all duration-300"
+          style={{
+            width: `${progressPct}%`,
+            background:
+              'linear-gradient(90deg, #4285F4 0%, #EA4335 35%, #FBBC05 70%, #34A853 100%)',
+          }}
+        />
+      </div>
     </div>
   );
 }
