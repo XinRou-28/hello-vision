@@ -56,7 +56,7 @@ import {
 export const COLAB_GITHUB_CONFIG = {
   owner: 'XinRou-28',
   repo: 'hello-vision',
-  branch: '',
+  branch: 'main',
   notebookPath: 'notebooks/Custom_Gesture_KNN_Training.ipynb',
 };
 
