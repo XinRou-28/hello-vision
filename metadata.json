@@ -1,0 +1,6 @@
+{
+  "name": "ABSOLUTE CINEMA",
+  "description": "An interactive digital art installation featuring gesture-controlled fireworks, a 3D particle universe, and full-body pose studies.",
+  "requestFramePermissions": ["camera"],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

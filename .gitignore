@@ -1,0 +1,32 @@
+# Dependencies
+node_modules/
+
+# Production build & test coverage
+dist/
+build/
+coverage/
+*.tsbuildinfo
+
+# Environment variables (keep .env.example)
+.env
+.env.*
+!.env.example
+
+# Logs & local caches
+*.log
+npm-debug.log*
+.vite/
+.eslintcache
+
+# Editor, workspace & operating-system clutter
+.aistudio/
+.DS_Store
+Thumbs.db
+.vscode/*
+!.vscode/extensions.json
+.idea/
+
+# Python / Colab local scratch artifacts
+__pycache__/
+*.py[cod]
+.ipynb_checkpoints/
