@@ -1,4 +1,4 @@
-import { ArrowLeft, ChevronLeft, ChevronRight, Maximize2, Minimize2 } from 'lucide-react';
+import { ArrowLeft, ChevronLeft, ChevronRight, Download, Maximize2, Minimize2 } from 'lucide-react';
 import { AnimatePresence, motion } from 'motion/react';
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { PRESENTATION_SLIDES } from './slidesData.js';
@@ -7,11 +7,17 @@ import SlideVisuals from './SlideVisuals.jsx';
 const BASE_WIDTH = 1280;
 const BASE_HEIGHT = 720;
 
+function isPrintModeActive() {
+  if (typeof window === 'undefined') return false;
+  return new URLSearchParams(window.location.search).get('print') === '1';
+}
+
 export default function PresentationDeck({
   initialSlideIndex = 0,
   onSlideChange,
   onOpenApp,
 }) {
+  const printMode = isPrintModeActive();
   const [slideIndex, setSlideIndex] = useState(() =>
     Math.max(0, Math.min(PRESENTATION_SLIDES.length - 1, initialSlideIndex))
   );
@@ -176,6 +182,45 @@ export default function PresentationDeck({
     [onOpenApp, slideIndex]
   );
 
+  if (printMode) {
+    return (
+      <div
+        className="bg-white text-[#202124]"
+        style={{ fontFamily: '"Plus Jakarta Sans", system-ui, -apple-system, sans-serif' }}
+      >
+        {PRESENTATION_SLIDES.map((slide, idx) => {
+          const slideNum = `${String(slide.number).padStart(2, '0')} / ${String(
+            PRESENTATION_SLIDES.length
+          ).padStart(2, '0')}`;
+          const revealMax = Math.max(0, (slide.revealCount || 1) - 1);
+
+          return (
+            <section
+              key={slide.id}
+              style={{
+                width: BASE_WIDTH,
+                height: BASE_HEIGHT,
+                breakAfter: idx < PRESENTATION_SLIDES.length - 1 ? 'page' : 'auto',
+                pageBreakAfter: idx < PRESENTATION_SLIDES.length - 1 ? 'always' : 'auto',
+              }}
+              className="relative overflow-hidden bg-[#FFFFFF] px-12 pt-10 pb-14"
+            >
+              <SlideVisuals
+                slide={slide}
+                revealStep={revealMax}
+                onSetRevealStep={() => {}}
+                onOpenApp={() => {}}
+              />
+              <div className="pointer-events-none absolute right-12 bottom-4 font-mono text-xs font-medium tracking-wider text-[#80868B] tabular-nums">
+                {slideNum}
+              </div>
+            </section>
+          );
+        })}
+      </div>
+    );
+  }
+
   return (
     <div
       ref={rootRef}
@@ -293,6 +338,16 @@ export default function PresentationDeck({
         </button>
 
         <span aria-hidden="true" className="h-4 w-px bg-white/15" />
+
+        <a
+          href="/HELLO_VISION_Slides.pdf"
+          download="HELLO_VISION_Slides.pdf"
+          aria-label="Download slides as PDF"
+          className="inline-flex h-8 cursor-pointer items-center gap-1.5 rounded-full px-3 text-xs font-medium whitespace-nowrap text-[#e6dfd1] transition-colors hover:bg-white/10 hover:text-white"
+        >
+          <Download className="h-3.5 w-3.5 text-[#d6b15e]" aria-hidden="true" />
+          <span>PDF</span>
+        </a>
 
         <button
           type="button"

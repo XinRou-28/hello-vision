@@ -515,6 +515,13 @@ export default function LandingScreen({
           <span className="tracking-[0.14em] uppercase text-[#a39b8d]">HELLO, VISION!</span>
           <div className="flex flex-wrap items-center gap-5">
             <span>Local camera tracking — video stays on your device</span>
+            <a
+              href="/HELLO_VISION_Slides.pdf"
+              download="HELLO_VISION_Slides.pdf"
+              className="font-medium text-[#a39b8d] transition-colors hover:text-[#e8cc84]"
+            >
+              Download Slides (PDF)
+            </a>
             {onOpenPresentation && (
               <button
                 type="button"
