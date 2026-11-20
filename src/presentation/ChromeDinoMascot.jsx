@@ -121,3 +121,99 @@ export default function ChromeDinoMascot({ pose = 'waving', className = 'h-14 w-
     </svg>
   );
 }
+
+/**
+ * Brand-new Google Chrome T-Rex farewell mascot for the final THANK YOU! slide.
+ * Features the classic stepped pixel T-Rex wearing a graduation cap, waving goodbye
+ * on the Chrome Dino desert horizon with subtle Google-colour pixel sparkles.
+ */
+export function GoodbyeGoogleDino({ className = 'h-72 w-auto' }) {
+  return (
+    <svg
+      viewBox="0 0 38 32"
+      shapeRendering="crispEdges"
+      role="img"
+      aria-label="Google Chrome pixel dinosaur wearing a graduation cap and waving goodbye"
+      className={className}
+    >
+      {/* Subtle Google-colour pixel stars & vision dots */}
+      <g aria-hidden="true">
+        {/* Blue 4-point pixel sparkle (top left) */}
+        <rect x="6" y="7" width="1" height="1" fill="#4285F4" />
+        <rect x="5" y="8" width="1" height="1" fill="#4285F4" />
+        <rect x="7" y="8" width="1" height="1" fill="#4285F4" />
+        <rect x="6" y="9" width="1" height="1" fill="#4285F4" />
+
+        {/* Red pixel dot (mid left) */}
+        <rect x="9" y="13" width="1" height="1" fill="#EA4335" />
+
+        {/* Yellow 4-point pixel star (top right) */}
+        <rect x="30" y="6" width="1" height="1" fill="#FBBC05" />
+        <rect x="29" y="7" width="1" height="1" fill="#FBBC05" />
+        <rect x="31" y="7" width="1" height="1" fill="#FBBC05" />
+        <rect x="30" y="8" width="1" height="1" fill="#FBBC05" />
+
+        {/* Green pixel dot (lower right) */}
+        <rect x="32" y="15" width="1" height="1" fill="#34A853" />
+
+        {/* Wave motion accents clearly beside raised waving paw */}
+        <rect x="28" y="10" width="1" height="1" fill="#4285F4" />
+        <rect x="29" y="11" width="1" height="2.2" fill="#4285F4" />
+        <rect x="28" y="13.2" width="1" height="1" fill="#4285F4" />
+      </g>
+
+      {/* Pixel graduation cap perched cleanly above the head with free-hanging tassel */}
+      <rect x="13" y="3.5" width="12" height="1.5" fill="#202124" />
+      <rect x="15.5" y="5" width="7" height="2" fill="#3C4043" />
+      <rect x="18.5" y="2.6" width="1" height="0.9" fill="#FBBC05" />
+      <rect x="24.2" y="5" width="1" height="3.2" fill="#FBBC05" />
+      <rect x="24" y="8.2" width="1.4" height="1.1" fill="#EA4335" />
+
+      {/* Authentic Chrome Dino head & snout */}
+      <rect x="15" y="7" width="7" height="1" fill="#535353" />
+      <rect x="14" y="8" width="9" height="4" fill="#535353" />
+      {/* Expressive white pixel eye */}
+      <rect x="16" y="9" width="1.5" height="1.5" fill="#FFFFFF" />
+      {/* Upper snout & cheerful open mouth */}
+      <rect x="14" y="12" width="9" height="1" fill="#535353" />
+      <rect x="18.5" y="14" width="3.5" height="1" fill="#535353" />
+
+      {/* Neck & body */}
+      <rect x="13" y="13" width="5" height="3" fill="#535353" />
+      <rect x="12" y="14" width="1" height="2" fill="#535353" />
+      <rect x="10" y="15" width="8" height="7" fill="#535353" />
+      <rect x="9" y="17" width="2" height="4" fill="#535353" />
+
+      {/* Tail */}
+      <rect x="7" y="17" width="2" height="4" fill="#535353" />
+      <rect x="5" y="16" width="2" height="3" fill="#535353" />
+      <rect x="4" y="14" width="1" height="3" fill="#535353" />
+
+      {/* Raised waving arm extended clearly out to the right of the body */}
+      <rect x="18" y="16.5" width="4" height="1.5" fill="#535353" />
+      <rect x="22" y="15" width="2" height="2" fill="#535353" />
+      <rect x="24" y="13" width="1.6" height="2.4" fill="#535353" />
+      <rect x="25" y="11.5" width="1.6" height="1.8" fill="#535353" />
+
+      {/* Tiny tucked side arm */}
+      <rect x="18" y="19.2" width="1.8" height="1" fill="#535353" />
+      <rect x="19" y="20.2" width="1" height="1" fill="#535353" />
+
+      {/* Legs (left planted, right lifted playfully) */}
+      <rect x="11" y="22" width="2" height="4" fill="#535353" />
+      <rect x="11" y="26" width="3" height="1" fill="#535353" />
+      <rect x="15" y="22" width="2" height="2.8" fill="#535353" />
+      <rect x="15" y="24.8" width="2.8" height="1" fill="#535353" />
+
+      {/* Chrome Dino desert horizon line & pixel pebbles */}
+      <rect x="2" y="27.5" width="34" height="0.6" fill="#9AA0A6" />
+      <rect x="4" y="28.8" width="1.5" height="0.5" fill="#BDC1C6" />
+      <rect x="9" y="29.3" width="0.8" height="0.5" fill="#9AA0A6" />
+      <rect x="15" y="29" width="2" height="0.5" fill="#BDC1C6" />
+      <rect x="22" y="28.7" width="1" height="0.5" fill="#9AA0A6" />
+      <rect x="27" y="29.5" width="1.5" height="0.5" fill="#BDC1C6" />
+      <rect x="32" y="28.9" width="1" height="0.5" fill="#9AA0A6" />
+    </svg>
+  );
+}
+

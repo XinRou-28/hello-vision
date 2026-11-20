@@ -14,7 +14,7 @@ import {
   HAND_LANDMARK_COLORS,
 } from '../vision/handOverlayRenderer.js';
 import { HAND_CONNECTIONS, HAND_LANDMARK_INDEX } from '../vision/landmarkMath.js';
-import ChromeDinoMascot from './ChromeDinoMascot.jsx';
+import ChromeDinoMascot, { GoodbyeGoogleDino } from './ChromeDinoMascot.jsx';
 
 const MEME_SRC = '/assets/images/image_e0e84eaa.png';
 const PERFORMER_PHOTO_SRC = '/assets/images/image_968223bc.png';
@@ -1452,6 +1452,59 @@ function Slide10WhatPowersOurApp({ slide }) {
   );
 }
 
+/**
+ * Slide 11 — THANK YOU!
+ * Warm closing goodbye featuring the new 3D clay baby Dino mascot waving goodbye.
+ */
+function Slide11ThankYou({ slide }) {
+  return (
+    <div className="flex h-full flex-col justify-between">
+      <div className="flex items-center justify-between border-b border-[#E8EAED] pb-3.5 text-xs font-semibold text-[#5F6368]">
+        <span className="tracking-[0.14em] text-[#5F6368] uppercase">
+          HELLO, VISION! · WORKSHOP FINALE
+        </span>
+        <GoogleAccentRule />
+      </div>
+
+      <div className="my-auto grid grid-cols-12 items-center gap-10">
+        <div className="col-span-5 flex flex-col items-start">
+          <h2
+            className="font-display text-[5.15rem] font-bold tracking-tight text-[#202124] leading-[0.94]"
+            style={{ textWrap: 'balance' }}
+          >
+            {slide.title}
+          </h2>
+
+          <div className="my-6">
+            <GoogleAccentRule widthClass="w-16" />
+          </div>
+
+          <p className="max-w-md text-[1.4rem] font-medium leading-relaxed text-[#3C4043]">
+            {slide.subtitle}
+          </p>
+
+          {slide.closingNote && (
+            <p className="mt-5 text-base font-semibold tracking-wide text-[#9A6B16]">
+              {slide.closingNote}
+            </p>
+          )}
+        </div>
+
+        <div className="col-span-7 flex h-[476px] flex-col items-center justify-center rounded-3xl border border-[#EAE6DC] bg-[#FAF8F3] px-10 py-8">
+          <GoodbyeGoogleDino className="h-[348px] w-auto" />
+          <p className="mt-4 text-sm font-semibold tracking-wide text-[#5F6368]">
+            Thanks for building with us today!
+          </p>
+        </div>
+      </div>
+
+      <div className="flex items-center justify-between border-t border-[#E8EAED] pt-3 text-xs font-medium text-[#5F6368]">
+        <span>GDG On Campus Universiti Malaya · Interactive Browser Workshop</span>
+      </div>
+    </div>
+  );
+}
+
 export default function SlideVisuals({ slide, revealStep, onSetRevealStep, onOpenApp }) {
   switch (slide.id) {
     case 'slide-1':
@@ -1479,7 +1532,9 @@ export default function SlideVisuals({ slide, revealStep, onSetRevealStep, onOpe
     case 'slide-9':
       return <Slide9Mission slide={slide} onOpenApp={onOpenApp} />;
     case 'slide-10':
-    default:
       return <Slide10WhatPowersOurApp slide={slide} />;
+    case 'slide-11':
+    default:
+      return <Slide11ThankYou slide={slide} />;
   }
 }

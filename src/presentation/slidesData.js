@@ -75,4 +75,12 @@ export const PRESENTATION_SLIDES = [
     subtitle: 'Meet the AI behind our interactive experience.',
     revealCount: 1,
   },
+  {
+    id: 'slide-11',
+    number: 11,
+    title: 'THANK YOU!',
+    subtitle: 'Keep exploring. Keep experimenting. Keep creating with AI.',
+    closingNote: 'See you in the next discovery!',
+    revealCount: 1,
+  },
 ];

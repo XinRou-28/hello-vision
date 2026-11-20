@@ -4,8 +4,8 @@ import path from 'node:path';
 import test from 'node:test';
 import { PRESENTATION_SLIDES } from '../src/presentation/slidesData.js';
 
-test('Presentation contains all 10 HELLO, VISION! slides in the refined story arc without section labels or presenter notes', () => {
-  assert.equal(PRESENTATION_SLIDES.length, 10);
+test('Presentation contains all 11 HELLO, VISION! slides in the refined story arc without section labels or presenter notes', () => {
+  assert.equal(PRESENTATION_SLIDES.length, 11);
 
   const expectedTitles = [
     'HELLO, VISION!',
@@ -18,6 +18,7 @@ test('Presentation contains all 10 HELLO, VISION! slides in the refined story ar
     'SO, HOW DOES IT WORK?',
     'YOUR MISSION STARTS NOW.',
     'WHAT POWERS OUR APP?',
+    'THANK YOU!',
   ];
 
   PRESENTATION_SLIDES.forEach((slide, idx) => {
@@ -44,6 +45,14 @@ test('Presentation contains all 10 HELLO, VISION! slides in the refined story ar
   assert.equal(
     PRESENTATION_SLIDES[9].subtitle,
     'Meet the AI behind our interactive experience.'
+  );
+  assert.equal(
+    PRESENTATION_SLIDES[10].subtitle,
+    'Keep exploring. Keep experimenting. Keep creating with AI.'
+  );
+  assert.equal(
+    PRESENTATION_SLIDES[10].closingNote,
+    'See you in the next discovery!'
   );
 });
 
