@@ -4,9 +4,7 @@ import { useState } from 'react';
 import agricultureCropsPhoto from '../assets/images/agriculture_crops_photo_1794879960965.jpg';
 import appMagicCanvasImg from '../assets/images/app_magic_canvas.png';
 import appParticleUniverseImg from '../assets/images/app_particle_universe.png';
-import appPoseChallengeImg from '../assets/images/app_pose_challenge.png';
 import cvDrivingPhoto from '../assets/images/cv_driving_photo_1794878401682.jpg';
-import cvHandPhoto from '../assets/images/cv_hand_photo_1794878401126.jpg';
 import cvMedicalPhoto from '../assets/images/cv_medical_photo_1794878400366.jpg';
 import everydayOcrPhoto from '../assets/images/everyday_ocr_photo_1794879960894.jpg';
 import humanHandPhoto from '../assets/images/human_hand_photo_1794878400143.jpg';
@@ -45,31 +43,6 @@ const HAND_21_POINTS_4X3 = [
   { id: 18, x: 144, y: 132 },
   { id: 19, x: 138, y: 105 },
   { id: 20, x: 134, y: 84 },
-];
-
-// 21 hand landmarks aligned to the Victory hand in cv_hand_photo_1794878401126.jpg (400x300)
-const VICTORY_HAND_21_POINTS_4X3 = [
-  { id: 0, x: 301, y: 189 },
-  { id: 1, x: 293, y: 179 },
-  { id: 2, x: 292, y: 169 },
-  { id: 3, x: 298, y: 162 },
-  { id: 4, x: 304, y: 159 },
-  { id: 5, x: 296, y: 154 },
-  { id: 6, x: 294, y: 138 },
-  { id: 7, x: 292, y: 125 },
-  { id: 8, x: 291, y: 114 },
-  { id: 9, x: 305, y: 153 },
-  { id: 10, x: 310, y: 137 },
-  { id: 11, x: 315, y: 125 },
-  { id: 12, x: 319, y: 116 },
-  { id: 13, x: 312, y: 157 },
-  { id: 14, x: 313, y: 166 },
-  { id: 15, x: 309, y: 171 },
-  { id: 16, x: 305, y: 167 },
-  { id: 17, x: 318, y: 162 },
-  { id: 18, x: 319, y: 170 },
-  { id: 19, x: 315, y: 174 },
-  { id: 20, x: 311, y: 171 },
 ];
 
 // Object detection boxes aligned to cv_driving_photo_1794878401682.jpg (400x300)
@@ -1277,146 +1250,10 @@ function Slide8HowItWorks({ slide }) {
 }
 
 /**
- * Slide 9 — NOW IT'S YOUR TURN.
- * Participatory workshop invitation: 01 EXPLORE -> 02 TRAIN -> 03 PLAY (+ small Pose Challenge bonus).
+ * Slide 9 — YOUR MISSION STARTS NOW.
+ * Chrome Dino teacher mascot invites participants into the hands-on workshop app.
  */
-function Slide9YourTurn({ slide }) {
-  return (
-    <div className="flex h-full flex-col justify-between">
-      <SlideHeader title={slide.title} subtitle={slide.subtitle} />
-
-      <div className="my-auto grid grid-cols-3 items-start gap-7">
-        {/* 01 — EXPLORE */}
-        <div className="flex flex-col">
-          <div className="mb-2.5 flex items-baseline gap-2">
-            <span className="font-mono text-base font-bold text-[#4285F4]">01</span>
-            <span className="text-sm font-extrabold tracking-wider text-[#4285F4] uppercase">
-              — EXPLORE
-            </span>
-          </div>
-          <div className="relative aspect-[4/3] w-full overflow-hidden rounded-xl border border-[#DADCE0] bg-[#111318]">
-            <img
-              src={cvHandPhoto}
-              alt="Participant holding up a Victory sign tracked live"
-              className="block h-full w-full object-cover"
-            />
-            <HandSkeletonSvg
-              points={VICTORY_HAND_21_POINTS_4X3}
-              workshopStyle
-              pointScale={0.9}
-            />
-          </div>
-          <p className="mt-3.5 text-lg font-bold leading-snug text-[#202124]">
-            See your hand tracked live.
-          </p>
-          <p className="mt-1 text-sm text-[#5F6368]">
-            Watch 21 landmarks follow your fingers in real time.
-          </p>
-        </div>
-
-        {/* 02 — TRAIN */}
-        <div className="flex flex-col">
-          <div className="mb-2.5 flex items-baseline gap-2">
-            <span className="font-mono text-base font-bold text-[#B06000]">02</span>
-            <span className="text-sm font-extrabold tracking-wider text-[#B06000] uppercase">
-              — TRAIN
-            </span>
-          </div>
-          <div className="flex aspect-[4/3] w-full flex-col justify-between overflow-hidden rounded-xl border border-[#DADCE0] bg-[#0b0c10] p-4 text-[#f2efe9]">
-            <div className="flex items-center justify-between text-[11px]">
-              <span className="font-semibold text-[#e8cc84]">1. My Gestures</span>
-              <span className="font-mono text-stone-400">30 samples/class</span>
-            </div>
-
-            <div className="space-y-2 my-auto">
-              {[
-                { name: 'Open Palm', count: '30 / 30', pct: '100%' },
-                { name: 'Victory', count: '30 / 30', pct: '100%' },
-                { name: 'Fist', count: '30 / 30', pct: '100%' },
-              ].map((cls) => (
-                <div
-                  key={cls.name}
-                  className="rounded-lg border border-white/10 bg-black/40 px-3 py-2"
-                >
-                  <div className="flex items-center justify-between text-xs">
-                    <span className="font-semibold text-stone-100">{cls.name}</span>
-                    <span className="font-mono text-[11px] text-emerald-300 tabular-nums">
-                      {cls.count} · Ready
-                    </span>
-                  </div>
-                  <div className="mt-1.5 h-1.5 w-full overflow-hidden rounded-full bg-white/10">
-                    <div className="h-full bg-emerald-400" style={{ width: cls.pct }} />
-                  </div>
-                </div>
-              ))}
-            </div>
-
-            <div className="flex items-center justify-between rounded-lg border border-[#d6b15e]/40 bg-[#d6b15e]/15 px-3 py-1.5 text-[11px]">
-              <span className="font-semibold text-[#e8cc84]">2. Train Model in Colab</span>
-              <span className="font-mono text-stone-200">knn-gesture-model.json</span>
-            </div>
-          </div>
-          <p className="mt-3.5 text-lg font-bold leading-snug text-[#202124]">
-            Collect examples and teach your own gesture model.
-          </p>
-          <p className="mt-1 text-sm text-[#5F6368]">
-            Train with your samples in Google Colab and import your model.
-          </p>
-        </div>
-
-        {/* 03 — PLAY */}
-        <div className="flex flex-col">
-          <div className="mb-2.5 flex items-baseline gap-2">
-            <span className="font-mono text-base font-bold text-[#137333]">03</span>
-            <span className="text-sm font-extrabold tracking-wider text-[#137333] uppercase">
-              — PLAY
-            </span>
-          </div>
-          <div className="relative aspect-[4/3] w-full overflow-hidden rounded-xl border border-[#DADCE0] bg-[#08070B]">
-            <img
-              src={appMagicCanvasImg}
-              alt="Magic Canvas fireworks controlled live by hand gestures"
-              className="block h-full w-full object-contain"
-            />
-            <div className="pointer-events-none absolute right-2.5 bottom-2.5 aspect-video h-[66px] overflow-hidden rounded-lg border border-white/25 bg-[#050507] shadow-lg">
-              <img
-                src={appParticleUniverseImg}
-                alt="Particle Universe 3D preview"
-                className="block h-full w-full object-cover"
-              />
-            </div>
-          </div>
-          <p className="mt-3.5 text-lg font-bold leading-snug text-[#202124]">
-            Test your model and control interactive digital visuals.
-          </p>
-          <p className="mt-1 text-sm text-[#5F6368]">
-            Launch fireworks in Magic Canvas and steer Particle Universe.
-          </p>
-        </div>
-      </div>
-
-      {/* Small bonus note for Pose Challenge */}
-      <div className="flex items-center gap-3.5 border-t border-[#E8EAED] pt-3">
-        <img
-          src={appPoseChallengeImg}
-          alt="Pose Challenge bonus activity"
-          className="h-9 w-15 shrink-0 rounded-md border border-[#DADCE0] object-cover"
-        />
-        <p className="text-sm text-[#5F6368]">
-          <span className="font-bold text-[#EA4335]">Bonus Activity:</span>{' '}
-          After testing your hand gestures, try the full-body{' '}
-          <span className="font-semibold text-[#202124]">Pose Challenge</span>.
-        </p>
-      </div>
-    </div>
-  );
-}
-
-/**
- * Slide 10 — YOUR MISSION STARTS NOW.
- * Chrome Dino teacher mascot leads participants into the live workshop app.
- */
-function Slide10Mission({ slide, onOpenApp }) {
+function Slide9Mission({ slide, onOpenApp }) {
   return (
     <div className="flex h-full flex-col justify-between">
       <div className="flex items-center justify-between border-b border-[#E8EAED] pb-3.5">
@@ -1426,19 +1263,22 @@ function Slide10Mission({ slide, onOpenApp }) {
         <GoogleAccentRule />
       </div>
 
-      <div className="my-auto grid grid-cols-12 items-center gap-10">
+      <div className="my-auto grid grid-cols-12 items-center gap-12">
         <div className="col-span-7 flex flex-col items-start">
           <h2
-            className="font-display text-[3.85rem] font-bold tracking-tight text-[#202124] leading-[1.0]"
+            className="font-display text-[4.85rem] font-bold tracking-tight text-[#202124] leading-[0.95]"
             style={{ textWrap: 'balance' }}
           >
-            TEACH A COMPUTER TO{' '}
-            <span className="text-[#4285F4]">RECOGNISE YOUR GESTURES.</span>
+            LET&apos;S GET
+            <br />
+            <span className="text-[#4285F4]">HANDS-ON!</span>
           </h2>
 
-          <p className="mt-5 text-xl font-medium text-[#5F6368]">{slide.tagline}</p>
+          <p className="mt-6 max-w-xl text-[1.35rem] font-medium leading-relaxed text-[#5F6368]">
+            {slide.tagline}
+          </p>
 
-          <div className="mt-8 flex flex-wrap items-center gap-4">
+          <div className="mt-9 flex flex-wrap items-center gap-4">
             <button
               type="button"
               onClick={() => onOpenApp(null)}
@@ -1506,6 +1346,112 @@ function Slide10Mission({ slide, onOpenApp }) {
   );
 }
 
+/**
+ * Slide 10 — WHAT POWERS OUR APP?
+ * Clean Apple-like editorial slide introducing MediaPipe (pretrained hand tracking)
+ * before transitioning into participants training their own KNN gesture model.
+ */
+function Slide10WhatPowersOurApp({ slide }) {
+  return (
+    <div className="flex h-full flex-col justify-between">
+      {/* Header with eyebrow label, large serif headline, and short subtitle */}
+      <header className="flex items-end justify-between gap-6 border-b border-[#E8EAED] pb-3">
+        <div className="min-w-0">
+          <p className="text-[11px] font-bold tracking-[0.16em] text-[#9A6B16] uppercase">
+            {slide.eyebrow || 'HELLO, VISION! / BEHIND THE SCENES'}
+          </p>
+          <h2
+            className="font-display mt-1 text-[2.6rem] font-bold tracking-tight text-[#202124] leading-[1.02]"
+            style={{ textWrap: 'balance' }}
+          >
+            {slide.title}
+          </h2>
+          <p className="mt-1 text-[1rem] font-medium text-[#5F6368] leading-snug">
+            {slide.subtitle}
+          </p>
+        </div>
+        <div className="pb-1">
+          <GoogleAccentRule />
+        </div>
+      </header>
+
+      {/* Main visual focus + two minimal model cards */}
+      <div className="my-auto flex flex-col items-center gap-4">
+        {/* Authentic application camera feed frame with MediaPipe 21-landmark overlay */}
+        <div className="w-full max-w-[580px] overflow-hidden rounded-2xl border border-[#DADCE0] bg-[#0b0c10] p-2.5 shadow-[0_14px_34px_rgba(32,33,36,0.08)]">
+          <div className="flex items-center justify-between px-1.5 pb-2 text-[11px]">
+            <span className="font-medium tracking-wide text-[#d4cfc4]">Camera Feed</span>
+            <span className="font-mono text-[10.5px] font-medium text-[#e8cc84]">
+              Pretrained MediaPipe
+            </span>
+          </div>
+
+          <div className="relative flex h-[264px] w-full items-center justify-center overflow-hidden rounded-xl border border-white/10 bg-black">
+            <div className="relative aspect-[4/3] h-full">
+              <img
+                src={humanHandPhoto}
+                alt="Live camera feed showing a hand with MediaPipe's 21 landmarks and connecting lines"
+                className="block h-full w-full object-cover"
+              />
+              <HandSkeletonSvg
+                points={HAND_21_POINTS_4X3}
+                workshopStyle
+                pointScale={1.08}
+              />
+            </div>
+
+            <div className="pointer-events-none absolute right-2.5 bottom-2.5 left-2.5 flex items-center justify-between rounded-lg bg-black/75 px-3 py-1 text-[11px] text-stone-200">
+              <span>21 landmarks ready (21 pts)</span>
+              <span className="font-mono text-[#e8cc84]">63 features</span>
+            </div>
+          </div>
+        </div>
+
+        {/* Two minimal editorial cards subtly connected by a small arrow */}
+        <div className="grid w-full max-w-[780px] grid-cols-[1fr_auto_1fr] items-center gap-4">
+          <div className="rounded-xl border border-[#E6E2D8] bg-[#FAF8F3] px-5 py-3.5">
+            <p className="text-[11px] font-bold tracking-[0.14em] text-[#137333] uppercase">
+              PRETRAINED MODEL
+            </p>
+            <h3 className="font-display mt-1 text-[1.6rem] font-bold tracking-tight text-[#202124] leading-tight">
+              MediaPipe
+            </h3>
+            <p className="mt-1 text-[14.5px] font-medium text-[#5F6368]">
+              Tracks 21 hand landmarks.
+            </p>
+          </div>
+
+          <div
+            className="flex h-8 w-8 items-center justify-center rounded-full border border-[#E6E2D8] bg-[#FAF8F3]"
+            aria-hidden="true"
+          >
+            <ArrowRight className="h-4 w-4 text-[#5F6368]" />
+          </div>
+
+          <div className="rounded-xl border border-[#E6E2D8] bg-[#FAF8F3] px-5 py-3.5">
+            <p className="text-[11px] font-bold tracking-[0.14em] text-[#9A6B16] uppercase">
+              OUR OWN MODEL
+            </p>
+            <h3 className="font-display mt-1 text-[1.6rem] font-bold tracking-tight text-[#202124] leading-tight">
+              KNN
+            </h3>
+            <p className="mt-1 text-[14.5px] font-medium text-[#5F6368]">
+              Learns gestures from our samples.
+            </p>
+          </div>
+        </div>
+      </div>
+
+      {/* Closing transition */}
+      <div className="border-t border-[#E8EAED] pt-3">
+        <p className="text-[15px] font-bold tracking-[0.06em] text-[#202124] uppercase">
+          NOW, LET&apos;S TRAIN OUR OWN MODEL.
+        </p>
+      </div>
+    </div>
+  );
+}
+
 export default function SlideVisuals({ slide, revealStep, onSetRevealStep, onOpenApp }) {
   switch (slide.id) {
     case 'slide-1':
@@ -1531,9 +1477,9 @@ export default function SlideVisuals({ slide, revealStep, onSetRevealStep, onOpe
     case 'slide-8':
       return <Slide8HowItWorks slide={slide} />;
     case 'slide-9':
-      return <Slide9YourTurn slide={slide} />;
+      return <Slide9Mission slide={slide} onOpenApp={onOpenApp} />;
     case 'slide-10':
     default:
-      return <Slide10Mission slide={slide} onOpenApp={onOpenApp} />;
+      return <Slide10WhatPowersOurApp slide={slide} />;
   }
 }

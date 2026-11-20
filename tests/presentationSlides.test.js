@@ -16,8 +16,8 @@ test('Presentation contains all 10 HELLO, VISION! slides in the refined story ar
     'DIFFERENT WAYS COMPUTERS SEE.',
     'CAN WE TEACH A COMPUTER TO RECOGNISE OUR GESTURES?',
     'SO, HOW DOES IT WORK?',
-    "NOW IT'S YOUR TURN.",
     'YOUR MISSION STARTS NOW.',
+    'WHAT POWERS OUR APP?',
   ];
 
   PRESENTATION_SLIDES.forEach((slide, idx) => {
@@ -32,10 +32,19 @@ test('Presentation contains all 10 HELLO, VISION! slides in the refined story ar
     'One tracks your hand. The other learns what your gesture means.'
   );
   assert.equal(
-    PRESENTATION_SLIDES[9].subtitle,
-    'TEACH A COMPUTER TO RECOGNISE YOUR GESTURES.'
+    PRESENTATION_SLIDES[8].subtitle,
+    "LET'S GET HANDS-ON!"
   );
-  assert.equal(PRESENTATION_SLIDES[9].ctaText, "LET'S GET HANDS-ON!");
+  assert.equal(
+    PRESENTATION_SLIDES[8].tagline,
+    'Collect examples. Train your model. See what it can do.'
+  );
+  assert.equal(PRESENTATION_SLIDES[8].ctaText, "LET'S GET HANDS-ON!");
+  assert.equal(PRESENTATION_SLIDES[9].eyebrow, 'HELLO, VISION! / BEHIND THE SCENES');
+  assert.equal(
+    PRESENTATION_SLIDES[9].subtitle,
+    'Meet the AI behind our interactive experience.'
+  );
 });
 
 test('Presentation deck UI omits Presenter Notes and Overview controls', () => {
